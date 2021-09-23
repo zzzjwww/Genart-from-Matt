@@ -3,7 +3,7 @@ const { lerp } = require("canvas-sketch-util/math");
 const random = require("canvas-sketch-util/random");
 const palettes = require("nice-color-palettes");
 
-
+//to get an "id" for the scene
 random.setSeed(random.getRandomSeed());
 console.log(random.getRandomSeed());
 
@@ -15,10 +15,9 @@ const settings = {
 
 
 const sketch = () => {
-  // random.setSeed(5);
+
   const colorCount = random.rangeFloor(1, 6);
   const palette = random.pick(palettes).slice(0, colorCount);
-
 
   const createGrid = () => {
     const points = [];
@@ -50,6 +49,16 @@ const sketch = () => {
     context.fillStyle = "white";
     context.fillRect(0, 0, width, height);
 
+
+    const fill = context.createLinearGradient(0, 0, width, height);
+    fill.addColorStop(0, 'cyan');
+    fill.addColorStop(1, 'orange');
+
+    context.fillStyle = fill;
+    context.fillRect(margin, margin, width - margin * 2, height - margin * 2);
+
+
+
     points.forEach(data => {
       const {
         color,
@@ -63,10 +72,6 @@ const sketch = () => {
       const x = lerp(margin, width - margin, u);
       const y = lerp(margin, height - margin, v);
 
-      // context.beginPath();
-      // context.arc(x,y,radius * width, 0, Math.PI*2,false );
-      // context.fillStyle = color;
-      // context.fill();
       context.save();
       context.fillStyle = color;
       context.font = `${radius * width}px "Helvetica"`;
@@ -76,6 +81,8 @@ const sketch = () => {
 
       context.restore();
     })
+
+
   };
 };
 
